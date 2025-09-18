@@ -4,6 +4,28 @@ import DataTable from "../common/DataTable";
 import SidebarStats from "../common/SidebarStats";
 import rooms from "../../data/roomsData";
 
+
+
+const handleView = (row) => {
+  console.log("Viewing meeting:", row);
+  // e.g. navigate(`/meetings/${row.id}`);
+};
+
+const handleEdit = (row) => {
+  console.log("Editing meeting:", row);
+  // e.g. open modal with row data
+};
+
+const handleDelete = (row) => {
+  console.log("Deleting meeting:", row);
+  // e.g. call API and update state
+};
+
+const handleMore = (row) => {
+  console.log("More options for:", row);
+  // e.g. show dropdown menu
+};
+
 export default function RoomsOverview() {
   const columns = [
     { key: "id", label: "ROOM ID ↓" },
@@ -12,7 +34,11 @@ export default function RoomsOverview() {
       key: "status",
       label: "STATUS",
       render: (row) => (
-        <span className={row.status === "Active" ? "text-green-500" : "text-red-500"}>
+        <span
+          className={
+            row.status === "Active" ? "text-green-500" : "text-red-500"
+          }
+        >
           {row.status}
         </span>
       ),
@@ -23,12 +49,24 @@ export default function RoomsOverview() {
     {
       key: "actions",
       label: "ACTIONS",
-      render: () => (
+      render: (row) => (
         <div className="flex gap-2">
-          <Eye className="w-5 h-5 text-gray-600 cursor-pointer" />
-          <Pencil className="w-5 h-5 text-yellow-500 cursor-pointer" />
-          <Trash2 className="w-5 h-5 text-red-500 cursor-pointer" />
-          <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer" />
+          <Eye
+            className="w-5 h-5 text-gray-600 cursor-pointer"
+            onClick={() => handleView(row)}
+          />
+          <Pencil
+            className="w-5 h-5 text-yellow-500 cursor-pointer"
+            onClick={() => handleEdit(row)}
+          />
+          <Trash2
+            className="w-5 h-5 text-red-500 cursor-pointer"
+            onClick={() => handleDelete(row)}
+          />
+          <MoreVertical
+            className="w-5 h-5 text-gray-600 cursor-pointer"
+            onClick={() => handleMore(row)}
+          />
         </div>
       ),
     },
@@ -41,8 +79,16 @@ export default function RoomsOverview() {
   ];
 
   const actions = [
-    { label: "Add Room", icon: <Plus />, onClick: () => console.log("Add Room") },
-    { label: "Service Request", icon: <Plus />, onClick: () => console.log("Service Request") },
+    {
+      label: "Add Room",
+      icon: <Plus />,
+      onClick: () => console.log("Add Room"),
+    },
+    {
+      label: "Service Request",
+      icon: <Plus />,
+      onClick: () => console.log("Service Request"),
+    },
   ];
 
   return (

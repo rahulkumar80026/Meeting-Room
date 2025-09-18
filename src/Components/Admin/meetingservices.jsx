@@ -4,42 +4,77 @@ import DataTable from "../common/DataTable";
 import SidebarStats from "../common/SidebarStats";
 import meetings from "../../data/meetingData";
 
+
+
+const handleView = (row) => {
+  console.log("Viewing meeting:", row);
+  // e.g. navigate(`/meetings/${row.id}`);
+};
+
+const handleEdit = (row) => {
+  console.log("Editing meeting:", row);
+  // e.g. open modal with row data
+};
+
+const handleDelete = (row) => {
+  console.log("Deleting meeting:", row);
+  // e.g. call API and update state
+};
+
+const handleMore = (row) => {
+  console.log("More options for:", row);
+  // e.g. show dropdown menu
+};
+
 export default function MeetingsOverview() {
   const columns = [
-    { key: "id", label: "MEETING ID ↓" },
-    { key: "title", label: "TITLE ↓" },
-    {
-      key: "status",
-      label: "STATUS",
-      render: (row) => (
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${
-            row.status === "Scheduled"
-              ? "bg-blue-100 text-blue-600"
-              : row.status === "Running"
-              ? "bg-green-100 text-green-600"
-              : "bg-gray-200 text-gray-600"
-          }`}
-        >
-          {row.status}
-        </span>
-      ),
-    },
-    { key: "roomId", label: "ROOM ID ↓" },
-    { key: "slot", label: "SLOT ↓" },
-    {
-      key: "actions",
-      label: "ACTIONS",
-      render: () => (
-        <div className="flex gap-2">
-          <Eye className="w-5 h-5 text-gray-600 cursor-pointer" />
-          <Pencil className="w-5 h-5 text-yellow-500 cursor-pointer" />
-          <Trash2 className="w-5 h-5 text-red-500 cursor-pointer" />
-          <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer" />
-        </div>
-      ),
-    },
-  ];
+  { key: "id", label: "MEETING ID ↓" },
+  { key: "title", label: "TITLE ↓" },
+  {
+    key: "status",
+    label: "STATUS",
+    render: (row) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-medium ${
+          row.status === "Scheduled"
+            ? "bg-blue-100 text-blue-600"
+            : row.status === "Running"
+            ? "bg-green-100 text-green-600"
+            : "bg-gray-200 text-gray-600"
+        }`}
+      >
+        {row.status}
+      </span>
+    ),
+  },
+  { key: "roomId", label: "ROOM ID ↓" },
+  { key: "slot", label: "SLOT ↓" },
+  {
+    key: "actions",
+    label: "ACTIONS",
+    render: (row) => (
+      <div className="flex gap-2">
+        <Eye
+          className="w-5 h-5 text-gray-600 cursor-pointer"
+          onClick={() => handleView(row)}
+        />
+        <Pencil
+          className="w-5 h-5 text-yellow-500 cursor-pointer"
+          onClick={() => handleEdit(row)}
+        />
+        <Trash2
+          className="w-5 h-5 text-red-500 cursor-pointer"
+          onClick={() => handleDelete(row)}
+        />
+        <MoreVertical
+          className="w-5 h-5 text-gray-600 cursor-pointer"
+          onClick={() => handleMore(row)}
+        />
+      </div>
+    ),
+  },
+];
+
 
   const stats = [
     { label: "Total Meetings", value: 35, bg: "bg-blue-200" },

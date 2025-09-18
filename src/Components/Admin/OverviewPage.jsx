@@ -29,6 +29,7 @@ export default function OverviewPage({
         >
           <h2 className="text-xl font-semibold px-6 py-4">{title}</h2>
           <DataTable columns={columns} data={data} renderRow={renderRow} />
+          
         </div>
 
         {/* Sidebar */}
