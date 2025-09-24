@@ -4,7 +4,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, User } from "lucide-react";
-import silder1 from "../../assets/Images/silder1.png";
+import silder1 from "../../assets/Images/slider1.png";
+import API from "../../services/api";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 
 // ---------- Validation Schema ----------
 const loginSchema = z.object({
@@ -22,6 +26,8 @@ const images = [
 
 function Login() {
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Auto slide every 4 seconds
   useEffect(() => {
@@ -41,9 +47,23 @@ function Login() {
   });
 
   // Handle login submit
-  const onSubmit = (data) => {
-    console.log("✅ Login Data:", data);
-    // TODO: Call your backend API here
+  const onSubmit = async (data) => {
+    try {
+      const response = await API.post("/auth/login", {
+        username: data.username,
+        password: data.password,
+      });
+
+      const token = response?.data?.token;
+      if (!token) throw new Error("Token missing in response");
+
+      login(token); // Store token in auth context
+      toast.success("Login successful!");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login Error:", error);
+      toast.error("Login failed. Please try again.");
+    }
   };
 
   return (
@@ -113,7 +133,10 @@ function Login() {
                   {...register("remember")}
                   className="w-4 h-4 text-yellow-400 border-gray-300 rounded focus:ring-yellow-400"
                 />
-                <label htmlFor="remember" className="ml-2 text-gray-600 text-sm">
+                <label
+                  htmlFor="remember"
+                  className="ml-2 text-gray-600 text-sm"
+                >
                   Remember Me
                 </label>
               </div>
