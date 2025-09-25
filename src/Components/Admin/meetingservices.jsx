@@ -27,6 +27,7 @@ const handleMore = (row) => {
 };
 
 export default function MeetingsOverview() {
+  
   const columns = [
   { key: "id", label: "MEETING ID ↓" },
   { key: "title", label: "TITLE ↓" },
