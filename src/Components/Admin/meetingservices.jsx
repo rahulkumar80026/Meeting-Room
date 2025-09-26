@@ -16,9 +16,14 @@ const handleEdit = (row) => {
   // e.g. open modal with row data
 };
 
-const handleDelete = (row) => {
-  console.log("Deleting meeting:", row);
-  // e.g. call API and update state
+const handleDelete = async (row, fetchRooms) => {
+  try {
+    await API.delete(`/rooms/${row._id}`);
+    console.log("Deleted room:", row._id);
+    fetchRooms(); // refresh data after delete
+  } catch (error) {
+    console.error("Error deleting room:", error);
+  }
 };
 
 const handleMore = (row) => {
